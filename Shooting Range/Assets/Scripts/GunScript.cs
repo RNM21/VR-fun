@@ -18,6 +18,7 @@ using UnityEngine;
         public AudioClip fireAudio;
         public AudioClip reloadAudio;
 
+        private bool stream = false;
         float nextFireTime = 0;
         bool canFire = true;
         int bulletsPerMagazineDefault = 0;
@@ -36,7 +37,10 @@ using UnityEngine;
         // Update is called once per frame
         void Update()
         {
-           
+            if (stream)
+            {
+                Fire();
+            }
         }
 
         public void Fire()
@@ -66,7 +70,14 @@ using UnityEngine;
                     }
                 }
             }
+            stream = !singleFire;
         }
+        
+        public void stopFire()
+        {
+            stream = false;
+        }
+        
 
         IEnumerator Reload()
         {
