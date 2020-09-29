@@ -11,7 +11,7 @@ using UnityEngine;
         public int speed = 40;
         public float fireRate = 0.1f;
         public GameObject bulletPrefab;
-        public Transform firePoint;
+        public Transform[] firePoints;
         public int bulletsPerMagazine = 30;
         public float timeToReload = 1.5f;
         public float weaponDamage = 15; //How much damage should this weapon deal
@@ -53,14 +53,15 @@ using UnityEngine;
 
                     if (bulletsPerMagazine > 0)
                     {
-                        GameObject bulletObject = Instantiate(bulletPrefab, firePoint.position, firePoint.rotation);
-                        //bulletObject.GetComponent<Rigidbody>().velocity = speed * firePoint.forward;
-                        BulletScript bullet = bulletObject.GetComponent<BulletScript>();
-
-                        //Set bullet damage according to weapon damage value
-                        bullet.SetDamage(weaponDamage);
-
-                        bulletsPerMagazine--;
+                        for(int i = 0; i < firePoints.Length; i++)
+                        {
+                            GameObject bulletObject = Instantiate(bulletPrefab, firePoints[i].position, firePoints[i].rotation);
+                            //bulletObject.GetComponent<Rigidbody>().velocity = speed * firePoint.forward;
+                            BulletScript bullet = bulletObject.GetComponent<BulletScript>();
+                            //Set bullet damage according to weapon damage value
+                            bullet.SetDamage(weaponDamage);
+                            bulletsPerMagazine--;
+                        }
                         audioSource.clip = fireAudio;
                         audioSource.Play();
                     }
